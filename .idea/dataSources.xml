@@ -8,5 +8,12 @@
       <jdbc-url>jdbc:postgresql://ec2-52-208-164-5.eu-west-1.compute.amazonaws.com:5432/dbpcr6e6vdrh9u</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="spring_security_demo_plaintext@localhost" uuid="5bdee64d-a5d5-4b4e-9498-b2eee50f7b41">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://localhost:5432/ spring_security_demo_plaintext</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>

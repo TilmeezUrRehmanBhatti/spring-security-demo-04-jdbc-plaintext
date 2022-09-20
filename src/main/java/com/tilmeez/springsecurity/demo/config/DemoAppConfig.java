@@ -58,14 +58,15 @@ public class DemoAppConfig {
         }
 
         // log the connection props
-        logger.info(">>>>> jdbc.url= " + env.getProperty("jdbc.uri"));
+        logger.info(">>>>> jdbc.url= " + env.getProperty("jdbc.driver"));
+        logger.info(">>>>> jdbc.url= " + env.getProperty("jdbc.url"));
         logger.info(">>>>> jdbc.user= " + env.getProperty("jdbc.user"));
 
         // set connection props
 
         securityDataSource.setJdbcUrl(env.getProperty("jdbc.url"));
-        securityDataSource.setJdbcUrl(env.getProperty("jdbc.user"));
-        securityDataSource.setJdbcUrl(env.getProperty("jdbc.password"));
+        securityDataSource.setUser(env.getProperty("jdbc.user"));
+        securityDataSource.setPassword(env.getProperty("jdbc.password"));
 
         // set connection pool props
         securityDataSource.setInitialPoolSize(

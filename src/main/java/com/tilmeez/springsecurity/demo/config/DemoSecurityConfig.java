@@ -22,7 +22,8 @@ public class DemoSecurityConfig /*extends WebSecurityConfigurerAdapter*/ {
 
     // add a reference to our security data source
     @Autowired
-    private DataSource securityDataSource;
+    private  DataSource securityDataSource;
+
 
     @Bean
     public UserDetailsManager userDetailsManager() {
