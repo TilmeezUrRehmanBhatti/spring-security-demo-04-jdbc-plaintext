@@ -218,6 +218,112 @@ public class DemoSecurityConfig {
 + `DataSource securityDataSource;` Inject our data source that we configured
 + `auth.jdbcAuthentication()` Tell Spring Security to use JDBC authentication with our data source
 
+## Spring Security - Password Encryption
 
-  
-  
+
+**Spring Security Team Recommendation**
+
++ Spring Security recommends using the popular **bcrypt** algorithm
++ bcrypt
+    + performs one-way encrypted hashing
+    + Adds a random salt to the password for additional protection
+    + Includes support to defeat brute force attacks
+
+
+
+
+**Bcrypt Additional Information**
+
++ Why should use bcrypt to hash passwords
+  https://danboterhoven.medium.com/why-you-should-use-bcrypt-to-hash-passwords-af330100b861
++ Detailed bcrypt algorithm analysis
+  https://en.wikipedia.org/wiki/Bcrypt
++ Password hashing - Best Practices
+  https://crackstation.net/hashing-security.htm
+
+**How to Get a Bcrypt password**
+
+We have plaintext password and if we want to encrypt using bcrypt
++ Option 1: Use a website utility to perform the encryption
++ Option 2: Write a java code to perform the encryption
+
+**How to Get a Bcrypt password - Website**
+
++ Visit: https://www.bcryptcalculator.com/
++ Enter a plaintext password
++ The website will generate a bcrypt password for us.
+
+
+**Development Process**
+1. Run SQL Script that contains encrypted passwords
+    + Modify DDL for password field, length should be 68
+
+2. Modify database properties file to point to new database schema
+
+
+> password column must be at least 68 chars wide
+> > {bcrypt} - 8 chars
+> > encodedPassword - 60 chars
+
+**Modify DDL for Password Field**
+
+```POSTGRESQL
+CREATE TABLE users (
+  username VARCHAR(50) NOT NULL,
+  password VARCHAR(50) NOT NULL,
+  enabled SMALLINT NOT NULL,
+
+  PRIMARY KEY (username)
+);
+```
+
+
+_Step 1:Develop SQL Script to setup database table_
+
+```POSTGRESQL
+
+INSERT INTO users
+VALUES
+    ('john', '{bcrypt}$2a$12$5vHeAtKCjHFGsN0vYTApnemrK1GHjNQZ53vQjI/05JuS5C97K5HYi' , 1),
+    ('mary', '{bcrypt}$2a$12$V93RGqhyQ7159e1JTb6nCeoTdVtrxeSnsVcZWCvD9r5k8aSsaWpmW' , 1),
+    ('susan', '{bcrypt}$2a$12$3OBb2o/Ij/I3fr.wcwUiTuuPG67LQLMiG6KNQOnvc8frKxmit9O9m' , 1);
+```
++ `bcrypt` the encoding algorithm id, Let Spring Security know the passwords are stored as encrypted passwords: bcrypt
++ `$2a$12$5vHeAtKCjHFGsN0vYTApnemrK1GHjNQZ53vQjI/05JuS5C97K5HYi` The encrypted password: test123
+
+
+
+
+<img src="https://user-images.githubusercontent.com/80107049/191592227-aa07c584-7f02-4a7a-ae02-9f963da4bcd2.png" width="500" />
+
+
+
+1. Retrieve password from db for the user
+2. Read the encoding algorithm id(bcrypt etc)
+3. For case of bcrypt, encrypt plaintext password from login form (using salt from db password)
+4. Compare encrypted password from login form WITH encrypted password from db
+    + The password from db is NEVER decrypted
+    + Because bcrypt is a one-way encryption algorithm
+5. If there is a match, login successful
+6. If no match, login NOT successful
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

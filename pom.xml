@@ -6,7 +6,7 @@
 
     <groupId>org.tilmeez</groupId>
     <artifactId>spring-security-demo</artifactId>
-    <version>1.0</version>
+    <version>0.2</version>
     <packaging>war</packaging>
 
     <name>spring-security-demo</name>
